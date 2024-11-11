@@ -1,0 +1,62 @@
+%--------------------
+% Packages
+% -------------------
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage{gentium}
+\usepackage{mathptmx} % Use Times Font
+
+
+\usepackage[pdftex]{graphicx} % Required for including pictures
+\usepackage[swedish]{babel} % Swedish translations
+\usepackage[pdftex,linkcolor=black,pdfborder={0 0 0}]{hyperref} % Format links for pdf
+\usepackage{calc} % To reset the counter in the document after title page
+\usepackage{enumitem} % Includes lists
+
+\frenchspacing % No double spacing between sentences
+\linespread{1.2} % Set linespace
+\usepackage[a4paper, lmargin=0.12\paperwidth, rmargin=0.12\paperwidth, tmargin=0.07\paperheight, bmargin=0.07\paperheight]{geometry} %margins
+%\usepackage{parskip}
+
+\usepackage[all]{nowidow} % Tries to remove widows
+\usepackage[protrusion=true,expansion=true]{microtype} % Improves typography, load after fontpackage is selected
+\usepackage{amsmath}
+
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+
+%-----------------------
+% Set pdf information and add title, fill in the fields
+%-----------------------
+\hypersetup{ 	
+pdfsubject = {Implementation of an Inverted Index-based Information Retrieval},
+pdftitle = {report},
+pdfauthor = {Yilin Chen}
+}
+
+%-----------------------
+% Begin document
+%-----------------------
+\title{Implementation of an Inverted Index-based Information Retrieval} % 设置主标题
+\author{Yilin Chen} % 设置作者
+\date{\today} % 自动插入当前日期
+
+\begin{document} %All text i dokumentet hamnar mellan dessa taggar, allt ovanför är formatering av dokumentet
+\maketitle % 插入主标题页面
+
+\input{Introduction}
+
+\input{Document Preprocessing}
+
+\input{Implementation of the Inverted Index}
+
+\input{Implementation of the Three Search Functions}
+
+\input{Ranked Retrieval}
+
+\input{Without Stopping}
+
+\input{Conclusion}
+
+\end{document}

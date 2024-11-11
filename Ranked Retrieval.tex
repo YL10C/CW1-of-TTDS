@@ -1,0 +1,10 @@
+\section{Ranked Retrieval}
+
+We use the following formula to calculate the TF-IDF score for each document:
+
+\[
+\text{Score}(q,d) = \sum_{t \in q \cap d} \left( 1 + \log_{10} \text{tf}(t, d) \right) \times \log_{10} \left( \frac{N}{\text{df}(t)} \right)
+\]
+
+We compute the weight of each term in each document and store it in a nested dictionary: \texttt{\{doc\_id: \{term: weight\}\}}. Using a dictionary not only improves efficiency but also avoids duplicate terms. By summing the scores of the terms that appear in both the query and each document, we obtain the overall score for each document. We then sort the documents by their scores in descending order and select the top 150 documents.
+

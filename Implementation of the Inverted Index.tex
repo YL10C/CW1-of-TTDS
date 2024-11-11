@@ -1,0 +1,5 @@
+\section{Implementation of the Inverted Index}
+
+We take as input the dictionary structure documents created by the preprocessing module: we extract the document id, the list of terms, and the corresponding positions of each term.
+We merge those three components into a nested dictionary structure: \texttt{\{term:\{doc\_id:[positions]\}\}}.
+First order dictionary uses terms as keys and its values are the second order dictionaries. The keys of the second-level dictionary will be the document IDs; each of these will have for a value a list of the positions that the term appears in the document. The reason for using a dictionary structure is that Python's dictionaries are implemented as hash tables, which means their average time complexity for lookups is $O(1)$. Besides that, dictionary data structures support direct value access through keys, and both the index creation processes (inserting data) and index querying (searching data) are very efficient. Besides, we have provided a simple query function, functions to store the index into a file and to read the index from a file in the index construction module. 

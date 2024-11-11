@@ -1,0 +1,8 @@
+\section{Without Stopping}
+
+After stopping removing stop words, the retrieval results do not have much change, but some specific queries are a little different. The difference of \texttt{results.boolean.txt} mainly appears in proximity searches. In removing stop words, the proximity searches return more results since the distance of terms become shorter. So, without removing stop words, though less results are returned, they are more accurate.
+
+The differences appear in \texttt{results.ranked.txt} for queries that contain stop words. For example, the word ``the'' in the fourth query and words ``will'', ``be'', ``a'', ``in'' for the eighth query. Stop words weights reflect in the overall score of the documents. After disabling stopword removal, the retrieved documents are more relevant to the stopwords of the query and less relevant to the main content of the query, which is not intended by the users.
+
+Now that stopwords removal is off, it takes more time to build and record the index. It is because the size of the index increased 61\%. Original it was 10.0MB, and now it is 16.1MB.
+But almost nothing changes in searching time for the same queries because the index is in a dictionary structure where the time complexity of a query is $O(1)$. On the whole, without stopwords removal, it will take 16.4s to run the whole process, while with stopwords removal, it only takes 11.0s. Therefore, removing stop words can enhance the code's operational efficiency by 32.9\%. 

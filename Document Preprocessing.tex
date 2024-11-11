@@ -1,0 +1,23 @@
+\section{Document Preprocessing}
+
+\subsection*{Tokenisation}
+Tokenization in the pre-processing module depends on regular expressions that match all terms in the documents. A lot of special cases have to be considered in the process, including words from headline, usernames, URLs, hyphens (-), possessives ('s), and contractions (e.g., n't).
+
+In the present work, we didn't differentiate between tokens coming from titles or body text as we did not have to implement features such as field-restricted searches - for example, "Headline: preprocess" to search only for documents where "preprocess" appears in the headline, or "Text: data science" to restrict the search to the body of the document.
+
+\begin{itemize}
+    \item The preprocessing module did not treat the usernames and URLs especially, since in most texts, they appear rarely. Otherwise, extra regular expressions would be needed to deal with them. That will increase the complexity of code. In addition, it makes the code hard to maintain and extend. Since it's limited to retrieval benefit, we chose to keep the pre-processing more straightforward.
+    \item Hyphens were replaced by spaces; hence, the hyphenated term was split into two separate tokens. By doing so, we provide a greater chance for successful retrieval. Besides that, in English, spelling variations exist by which its hyphenated word, for example, ``well-known'', may also appear as ``well known''. By using this rule of treating hyphens as spaces, we avoid inconsistency in indexing due to such spelling variations.
+    \item The preprocessor removes possessive forms: that is, 's.
+    For example, ``John's'' would be stemmed to ``John'', so that a query for ``John'' will also return ``John's''. This does not apply to the apostrophe usage in contractions. For the latter, there are quite a few contracted forms present in the stopword list, like "isn't", but only a few forms such as "cant". If the apostrophes were removed it could prevent stopwords from being correctly removed from documents. Besides, most of the time users use contractions in their search queries, hence it is redundant to do extra handling regarding contractions in the text. 
+\end{itemize}
+
+\subsection*{Stopword Removal}
+We are glad that a stopword list was provided to us - \texttt{ttds\_2023\_english\_stop\_words.txt}. The contents of the file were read and put into a set. We do a pass through the token list during preprocessing and exclude those tokens which are present in the stopword set. A set was chosen for storage of stopwords because Python implements sets as hash tables, which have an average time complexity of $O(1)$ for lookups. Since we have to check every token against the list of stopwords, it greatly increases the program efficiency by using a set. The data structure of Set also automatically eliminate duplicate elements; this automatically ensures that each stopword appears once, optimizing memory usage as well.
+
+\subsection*{Porter Stemming}
+In the stemming process, we have utilized the Porter Stemmer algorithm for stemming. Porter Stemmer is one of the oldest known and most successful algorithms for stemming, in wide use over information retrieval and natural language processing tasks. Its reputation and authority make it quite reliable to work with, and its ready-to-use implementation in libraries such as NLTK reduces the development effort.
+
+By utilizing Porter Stemmer, we are capable of normalizing word forms to their root. For instance, ``connection'', ``connected'', ``connecting'' would all then be reduced to "connect". This reduces the number of unique terms in the index, leading to a more compact and efficient inverted index. Additionally, stemming enhances recall in search results by ensuring that queries match a broader range of relevant documents. As a result, stemming contributes positively to both the performance and retrieval quality of the search engine.\newline
+
+In the preprocessing module, both TXT and XML file formats are supported. Two separate methods were implemented to handle TXT and XML files, respectively. These methods are unified under the \texttt{process\_file(self, file\_path, file\_type='txt')} method, where the \texttt{file\_type} determines the file format and selects the appropriate method for processing. The output is returned as a dictionary, where the keys represent document IDs, and the values are lists of tokens corresponding to each document.

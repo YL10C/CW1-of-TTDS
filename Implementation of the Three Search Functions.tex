@@ -1,0 +1,27 @@
+\section{Implementation of the Three Search Functions}
+
+In the QueryProcessor class, we have so far implemented three major kinds of search functionality: Boolean Search, Phrase Search, and Proximity Search. This class also contains a parsing method which can automatically match the user's input query to the right search function and invoke the correct processing logic.
+
+\subsection*{Boolean Search}
+
+In this implementation of the Boolean search, we make use of logical operators \textbf{AND}, \textbf{OR}, and \textbf{NOT} to combine or exclude query terms.
+
+\begin{itemize}
+    \item NOT Operator: In case of NOT appearing before a term, we retrieve a set of all document IDs from the index. From that, we remove the set of documents containing the term.
+    \item AND Operator: When two terms are connected by AND, we find their document IDs sets intersection, returning documents that contain both terms.
+    \item OR Operator: If two terms are combined with OR, we take the union of their document IDs sets, returning documents which contain at least one of the terms.
+\end{itemize}
+
+\subsection*{Phrase Search}
+
+The goal of phrase search is to find documents that contain the specified phrase, where the terms must appear consecutively in the given order. The key to the implementation lies in leveraging the positional information in the inverted index. We first extract all the terms in the phrase. For each document that contains the first term of the phrase, we examine the list of positions where that term appears. We then sequentially check the positions of the subsequent terms in these documents. Specifically, we verify whether the position of the first term plus one is present in the position list of the second term, whether the first term's position plus two is in the position list of the third term, and so on. If all these conditions are met, the document matches the phrase search.
+
+\subsection*{Proximity Search}
+
+Proximity search allows users to find documents where two terms appear within a certain distance of each other in the same document. We retrieve the sets of documents containing each of the two terms and find their intersection—that is, documents that contain both terms. For each of these documents, we obtain the position lists for each term and calculate the absolute distance between every pair of positions. If any pair of term positions has a difference less than or equal to the specified maximum distance, the document satisfies the proximity condition.
+
+\subsection*{Challenges Faced}
+
+Implementation of this module encountered a number of challenges.
+One, a Boolean search might contain multiple logical operators simultaneously. There could also be mixed searches where the query includes both phrase searches and Boolean searches. We solved the first problem by explaining the precedence of logical operators: the NOT operator has the highest precedence. Next we progressively combined the intermediate results so as to finally get the set of documents which satisfy the query conditions.
+The latter problem involved the need for further processing on query statements. Replacing the phrase and proximity searches in the query statement with placeholders was the first step. Next, we extracted from the statement placeholders and logical operators. Further, processing of the searches represented by placeholders into individual lists of document IDs, followed by execution of the logical operators on these lists, finally produced the result set.
